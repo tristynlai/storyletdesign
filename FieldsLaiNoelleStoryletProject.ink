@@ -42,7 +42,6 @@ VAR nextRoomStr = ""
 //Generic Room Template
 === Rooms ===
 ~nextRoomStr = moveRoom
-~credibility -= 25
 //Sets up next room
 {
 - entry: ~room ++
