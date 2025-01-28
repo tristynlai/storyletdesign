@@ -10,10 +10,14 @@ VAR moveRoom = "Move to the next room"
 VAR leave = "Leave the building"
 VAR fail = "Are those Security Guards approaching?"
 
-===Storylet1 ===
+===TESTStorylet1===
 TODO Change end to return to knot
-->END
-
+Test Storylet1
++[Accept]
++[Reject]
++[Deflect]
+TODO replace w/ return to top knot AFTER choices
+-->DONE
 //----------------------------------------------------------------------------------//
 
 === Intro ===
@@ -57,5 +61,10 @@ VAR nextRoomStr = ""
 }
 
 You're in Room {room}
+{
+- room > 0:
+<- TESTStorylet1
+-> DONE
+}
 
 +[{nextRoomStr}] -> nextRoomVar
