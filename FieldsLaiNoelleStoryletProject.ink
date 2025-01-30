@@ -9,7 +9,14 @@ VAR moveRoom = "Move to the next room"
 VAR leave = "Leave the building"
 VAR fail = "Are those Security Guards approaching?"
 
-===TESTStorylet1===
+//StoryletHolder
+===TableofContents(->ret)===
+// <- Storylet name(ret)
+<- TESTStorylet1(ret)
+->DONE
+
+//Storylets
+===TESTStorylet1(->ret)===
 This is the initial setup for Test Storylet1
 +{acceptToken > 0}[Accept]
     You accepted
@@ -20,8 +27,11 @@ This is the initial setup for Test Storylet1
 +[Stay Silent]
     You stayed Silent
     ~credibility -= 52
--->Rooms(true)
+--> ret
 //----------------------------------------------------------------------------------//
+
+===function Available===
+~return
 
 === Intro ===
 Silver Tongue
@@ -34,7 +44,7 @@ Silver Tongue
 
 -You approach the building
 ~nextRoomStr = enterBuilding
-+[{nextRoomStr}]->Rooms(false)
++[{nextRoomStr}]->Rooms
 
 ==ShopStart(->exit)===
 +[decision 1]
@@ -82,15 +92,21 @@ VAR roomReturn = "You're still in room "
 
 //----------------------------------------------------------------------------------//
 
+
+//Generic Exit Room prompt
+===RoomExit===
+    {roomReturn}{room}
+    +[{nextRoomStr}] -> nextRoomVar
+
 //Generic Room Template
-=== Rooms (returning)===
-{
--not returning: //checks if new room or returning from storylet
+=== Rooms ===
+//{
+//-not returning: //checks if new room or returning from storylet
     ~nextRoomStr = moveRoom
     //Sets up next room
     {
         - entry: ~room ++
-    - not entry: ~room --
+        - not entry: ~room --
     }
     // Handles special Cases
     {
@@ -103,12 +119,9 @@ VAR roomReturn = "You're still in room "
     {roomEntry}{room}
     {
     - room > 0:
-        <- TESTStorylet1
+        <- TableofContents(->RoomExit)
         -> DONE
     }
-- returning:
-    {roomReturn}{room}
-    +[{nextRoomStr}] -> nextRoomVar(false)
 }
 
 
