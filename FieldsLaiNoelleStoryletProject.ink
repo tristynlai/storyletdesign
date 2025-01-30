@@ -10,28 +10,54 @@ VAR leave = "Leave the building"
 VAR fail = "Are those Security Guards approaching?"
 
 //StoryletHolder
+TODO Put Storylet condition, entry statement, and knot name here ending with "(ret)"
 ===TableofContents(->ret)===
 // <- Storylet name(ret)
-<- TESTStorylet1(ret)
++{room<4}[I trigger the test story1] <- TESTStorylet1(ret)
+*{room<3&& not entry}[Wait is that a seagull?] <- TESTSeagullStorylet(ret)
 ->DONE
 
 //Storylets
+TODO Put Storylets here as knots, they should have options for accept, reject, deflect that check variables, a silent answer that checks for all variable being 0, and end with "--> ret"
 ===TESTStorylet1(->ret)===
 This is the initial setup for Test Storylet1
 +{acceptToken > 0}[Accept]
+    ~acceptToken --
     You accepted
 +{rejectToken>0}[Reject]
+    ~rejectToken --
     You rejected
 +{deflectToken > 0}[Deflect]
+    ~deflectToken--
     You deflected
-+[Stay Silent]
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
     You stayed Silent
-    ~credibility -= 52
 --> ret
+
+===TESTSeagullStorylet(->ret)===
+
+{
+-TESTSeagullStorylet < 2:
+You've been attacked by a seagull
+-TESTSeagullStorylet >= 1:
+You're still being attacked by a seagull
+}
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    You accepted
+    -> TESTSeagullStorylet(ret)
++{rejectToken>0}[Reject]
+    ~rejectToken --
+    You rejected
++{deflectToken > 0}[Deflect]
+    ~deflectToken --
+    You deflected
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+--> ret
+
 //----------------------------------------------------------------------------------//
 
-===function Available===
-~return
 
 === Intro ===
 Silver Tongue
@@ -84,7 +110,7 @@ VAR entry = true
 VAR room = 0
 VAR nextRoomVar = ->Rooms
 VAR nextRoomStr = ""
-VAR acceptToken = 0
+VAR acceptToken = 5
 VAR rejectToken = 0
 VAR deflectToken = 0
 VAR roomEntry = "You enter room "
