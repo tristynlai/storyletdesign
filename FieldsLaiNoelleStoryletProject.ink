@@ -15,6 +15,7 @@ TODO Put Storylet condition, entry statement, and knot name here ending with "(r
 // <- Storylet name(ret)
 +{room<4}[I trigger the test story1] <- TESTStorylet1(ret)
 *{room<3&& not entry}[Wait is that a seagull?] <- TESTSeagullStorylet(ret)
+* {room==1} [A nervous man in a suit] <- SpyIntro(ret)
 ->DONE
 
 //Storylets
@@ -56,6 +57,59 @@ You're still being attacked by a seagull
     You stayed Silent
 --> ret
 
+===SpyIntro(->ret)===
+You saunter further into the party, trying to appear like an unassuming human. Interestingly, you quickly notice someone else doing the same. He wears a similar suit and tie to yours, and keeps checking his watch and glancing around nervously, until his eyes and yours meet.
+
+He walks over to you. It seems a conversation is inevitable.
+
+“Hello, my... friend? Boy, the stars sure are *BERGUNDY* tonight huh?”
+
+He winks, then waits for a response.
+
+--> SpyIntro2 (ret)
+
+===SpyIntro2 (->ret) ===
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “THEY ARE GOOD, AREN’T THEY? BEAUTIFUL NIGHT FOR A PARTY.”
+
+The man looks at you, winks a few more times for good measure, then his hopeful smile turns forlorn.
+
+“Oh, apologies. I mistook you for someone else.”
+
+You get out before they have time to reconsider.
+~ credibility -= 5
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    “I’M NOT INTERESTED IN THE STARS AND I HAVE NEVER BEEN THERE-”
+
+“Well I-”
+
+“-AND YOU AND YOUR PEOPLE SHOULD NOT GO THERE EITHER.”
+
+
+“Well that’s alright with me. How about wine? In my opinion the best wines are... *BERGUNDY.* And yours?
+->SpyIntro2(ret) 
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “ACTUALLY I THINK I LEFT MY STOVE ON.”
+
+You turn to leave, but the man grabs you.
+
+“The codephrase! Agent F, you look different than expected, but of course you are a master of disguise.”
+
+Oh shit. Shit shit shit this is so awkward. You stand stunned as a little mechanism is slipped into your palm.
+
+“Your mission, Agent F, is to tag the Ivory Falcon with this covert tracking beacon. I trust a man of your... tastes will remember her photograph from the briefing? In any case, slip the beacon in her clothing so we can follow her back to base, and you will be handsomely rewarded.”
+
+You stumble out, beacon in pocket.
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
 //----------------------------------------------------------------------------------//
 
 
@@ -111,8 +165,8 @@ VAR room = 0
 VAR nextRoomVar = ->Rooms
 VAR nextRoomStr = ""
 VAR acceptToken = 5
-VAR rejectToken = 0
-VAR deflectToken = 0
+VAR rejectToken = 5
+VAR deflectToken = 5
 VAR roomEntry = "You enter room "
 VAR roomReturn = "You're still in room "
 
