@@ -4,7 +4,7 @@
 //----------------------------------------------------------------------------------//
 
 //Text Blocks
-VAR enterBuilding = "Enter the building"
+VAR enterBuilding = "Well, it’s time to find out."
 VAR moveRoom = "Move to the next room"
 VAR leave = "Leave the building"
 VAR fail = "Are those Security Guards approaching?"
@@ -13,7 +13,7 @@ VAR fail = "Are those Security Guards approaching?"
 TODO Put Storylet condition, entry statement, and knot name here ending with "(ret)"
 ===TableofContents(->ret)===
 // <- Storylet name(ret)
-+{room<4}[I trigger the test story1] <- TESTStorylet1(ret)
++{room<4}[Oops broke the table of contents] <- TESTStorylet1(ret)
 *{room<3&& not entry}[Wait is that a seagull?] <- TESTSeagullStorylet(ret)
 *{room==1} [A nervous man in a suit] <- SpyIntro(ret)
 ->DONE
@@ -78,7 +78,8 @@ The man looks at you, winks a few more times for good measure, then his hopeful 
 “Oh, apologies. I mistook you for someone else.”
 
 You get out before they have time to reconsider.
-~ credibility -= 5
+~ credibility --
+->StatusUpdate->
 
 *{rejectToken>0}[Reject]
     ~rejectToken --
@@ -90,6 +91,7 @@ You get out before they have time to reconsider.
 
 
 “Well that’s alright with me. How about wine? In my opinion the best wines are... *BERGUNDY.* And yours?
+->StatusUpdate->
 ->SpyIntro2(ret) 
 
 +{deflectToken > 0}[Deflect]
@@ -105,6 +107,7 @@ Oh shit. Shit shit shit this is so awkward. You stand stunned as a little mechan
 “Your mission, Agent F, is to tag the Ivory Falcon with this covert tracking beacon. I trust a man of your... tastes will remember her photograph from the briefing? In any case, slip the beacon in her clothing so we can follow her back to base, and you will be handsomely rewarded.”
 
 You stumble out, beacon in pocket.
+->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
     You stayed Silent
@@ -114,38 +117,69 @@ You stumble out, beacon in pocket.
 
 
 === Intro ===
--Silver Tongue-
+Silver Tongue
+*[begin]
+Your name is K'Thk'L'P'Le'Apl'T'Dd. You look exactly like an unassuming human, with the sole exception of the notable lack of a mouth beneath your nose. You breathe through your eyes, of course, as any sensible creature would - but here, at a ritzy penthouse cocktail party in the human colony Earth in the human town New York in the human year 2025, this will not do.
+** [continue]
 
-{
--not shopped:
-<-ShopStart(->Intro)
-->DONE
-}
+You NEED to be at this party. You NEED to infiltrate, mingle, and get out without being identified as the extraterrestrial you are. So you wear a translator across your lower face, a set of mechanical lips and tongue you’ve strapped across your upper chin.
+*** [continue]
 
--You approach the building
+You bought their cheapest model. It translates three vague commands contextually to match human conversation.  ACCEPT for engaging when prompted, REJECT for fighting against the flow, and DEFLECT for changing subject. After buying a suit, you only afford {money} lines of dialogue. 
+
+<-ShopStart(->Intro2)
+-->DONE
+
+
+==Intro2 ===
+Your mission is that of a rescue - and you’re the only one coming. You cannot afford to screw up. You sigh from your eyes as you shake out your joints, bouncing on the soles of your feet alone in the elevator. It dings, opening to a crowded rooftop. Men and women in fancy outfits laugh and banter in packs around the space. The air tastes like sweat and spilled champagne. Frantic lights strobe the sky from a dance floor further in, and beyond that are food and drink tables.
+
+You can do this, K’Thk. You have {acceptToken} ACCEPTs, {rejectToken} REJECTs and {deflectToken} DEFLECTs. That should be enough for a simple party, right?
+
 ~nextRoomStr = enterBuilding
 +[{nextRoomStr}]->Rooms
 
 ==ShopStart(->exit)===
-+[decision 1]
-    are you sure?
-    ++ [yes]
-    ++ [no]
-        ->ShopStart(exit)
-+[decision 2]
-    are you sure?
-    ++ [yes]
-    ++ [no]
-        ->ShopStart(exit)
-+[decision 3]
-    are you sure?
-    ++ [yes]
-    ++ [no]
-        ->ShopStart(exit)
-- You're done shopping
-~ shopped = true
-->exit
-
+You press a button on the machine and grab the datachip that vends out. 
+{
+-money > 0:
+You can still afford {money} lines of dialogue. Might as well spend it all.
++[Buy an ACCEPT]
+    ~acceptToken ++
+    ~money --
+    You purchased one ACCEPT response
+    ->ShopStart(exit)
++[Buy a REJECT]
+    ~rejectToken ++
+    ~money --
+    You purchased one REJECT response
+    ->ShopStart(exit)
++[Buy a DEFLECT]
+    ~deflectToken ++
+    ~money --
+    You purchased one DEFLECT response
+    ->ShopStart(exit)
++{money == 10}[Buy a QuikStart Pak]
+    This will give you 4 ACCEPTS, 3 DEFLECTS, and 3 REJECTS
+    This will cost 10 credits
+    Are you sure you want to purchase this?
+    **[yes]
+    You've purchased One (1) QuikStartPak
+    ~money = 0
+    ~acceptToken = 4
+    ~rejectToken = 3
+    ~deflectToken = 3
+    ->ShopStart(exit)
+    ++[no]
+    ->ShopStart(exit)
+-money <=0:
+    You buy your last line of dialogue, hoping it will be enough.
+    ->exit
+        }
+        
+===StatusUpdate===
+You now have {acceptToken} ACCEPTS, {rejectToken} REJECTS, and {deflectToken} DEFLECTS.
+->->
 
 === Ending ===
 You've escaped
@@ -158,8 +192,8 @@ You were caught
 //----------------------------------------------------------------------------------//
 
 //Variables
-VAR credibility = 100
-VAR shopped = false
+VAR money = 10
+VAR credibility = 5
 VAR entry = true
 VAR room = 0
 VAR nextRoomVar = ->Rooms
@@ -175,8 +209,7 @@ VAR roomReturn = "You're still in room "
 
 //Generic Exit Room prompt
 ===RoomExit===
-    {roomReturn}{room}
-    +[{nextRoomStr}] -> nextRoomVar
+    +[Finally, you approach the next area.] -> nextRoomVar
 
 //Generic Room Template
 === Rooms ===
@@ -196,7 +229,16 @@ VAR roomReturn = "You're still in room "
        ~nextRoomStr = leave
     - room == 3: ~entry = false
     }
-    {roomEntry}{room}
+    {
+    -room == 1: You enter the throng and move towards...
+    -room == 2: The bass thrums through your body as you approach the covered dancefloor. Strobes and colors assault your eyes and crowds of flailing humans cover the space, making traversal through near impossible. 
+
+You shudder, but steel yourself. Time to go in.
+
+    -room == 3: You exit a crowd of dancers and finally see it - the snack bar. Your ultimate goal.
+You’re nearly to your goal.
+
+    }
     {
     - room > 0:
         <- TableofContents(->RoomExit)
