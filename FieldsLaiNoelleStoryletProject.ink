@@ -5,7 +5,8 @@
 
 //Text Blocks
 VAR enterBuilding = "Well, it’s time to find out."
-VAR moveRoom = "Move to the next room"
+VAR moveRoom = "Finally, you approach the next area."
+TODO change Leave and fail
 VAR leave = "Leave the building"
 VAR fail = "Are those Security Guards approaching?"
 
@@ -209,7 +210,7 @@ VAR roomReturn = "You're still in room "
 
 //Generic Exit Room prompt
 ===RoomExit===
-    +[Finally, you approach the next area.] -> nextRoomVar
+    +[{nextRoomStr}] -> nextRoomVar
 
 //Generic Room Template
 === Rooms ===
