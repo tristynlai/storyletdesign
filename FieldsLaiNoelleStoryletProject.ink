@@ -6,8 +6,10 @@
 //Text Blocks
 VAR enterBuilding = "Well, it’s time to find out."
 VAR moveRoom = "Finally, you approach the next area."
-TODO change Leave and fail
+VAR shrimpBar = "Finally you make it"
+TODO change Leave, fail, and leaveShrimpBar
 VAR leave = "Leave the building"
+VAR leaveShrimpBar = "time to go"
 VAR fail = "Are those Security Guards approaching?"
 
 //StoryletHolder
@@ -34,7 +36,8 @@ This is the initial setup for Test Storylet1
     You deflected
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
     You stayed Silent
---> ret
+-->StatusUpdate->
+-> ret
 
 ===TESTSeagullStorylet(->ret)===
 
@@ -65,11 +68,12 @@ He walks over to you. It seems a conversation is inevitable.
 
 “Hello, my... friend? Boy, the stars sure are *BERGUNDY* tonight huh?”
 
-He winks, then waits for a response.
-
 --> SpyIntro2 (ret)
 
 ===SpyIntro2 (->ret) ===
+
+He winks, then waits for a response.
+
 +{acceptToken > 0}[Accept]
     ~acceptToken --
     “THEY ARE GOOD, AREN’T THEY? BEAUTIFUL NIGHT FOR A PARTY.”
@@ -114,6 +118,7 @@ You stumble out, beacon in pocket.
     You stayed Silent
     TODO
 -->ret
+
 //----------------------------------------------------------------------------------//
 
 
@@ -180,14 +185,50 @@ You can still afford {money} lines of dialogue. Might as well spend it all.
         
 ===StatusUpdate===
 You now have {acceptToken} ACCEPTS, {rejectToken} REJECTS, and {deflectToken} DEFLECTS.
+TODO Remove Debugs
+DEBUG you are currently in room {room}
 ->->
+
+===ShrimpBar=== 
+
+~room ++
+Under a sign labelled “shrimp bar,” you see it. A feast of horrors.
+
+You see Holiest Ones, plated and served in a variety of awful ways. Holiest One ceviche, Holiest One and cocktail sauce, Holiest One scampi...
+
+It takes all your willpower to not vomit and fall to your knees sobbing. But of course... These are not Holiest Ones. They are mostly Earth shrimp, which coincidentally bear a striking resemblance to your most holy of holy creatures.
+
+But not all of them are shrimp. You lean over a tub, and see five Holiest Ones stare up at you from among the refuse.
+
+You reach forward and, in your fist, grab all five. You turn to leave. It’s time to sprint out of here.
+
+~nextRoomVar = -> Rooms
+~entry = false
+~nextRoomStr = leaveShrimpBar
+        
+->StatusUpdate->
+
+--> RoomExit
 
 === Ending ===
 You've escaped
 ->END
 
 ===Failure===
-You were caught
+You start to move to the next room, but wait... some people are approaching immediately. Uh oh, they’re security guards.
+
+“We’re going to need to ask you to leave.”
+
+Seems like you made enough of an ass of yourself to get kicked out. Well... shit.
+
+{
+- not entry:
+Actually... wait, this is what you want! Now they’ll escort you and the Holiest Ones out of here.
+
+One guard grabs your arm. “And no free food!”
+
+He snatches the Holiest Ones from your hand, and, in horror, you watch him swallow them whole.
+}
 -> END
 
 //----------------------------------------------------------------------------------//
@@ -228,7 +269,11 @@ VAR roomReturn = "You're still in room "
      ~nextRoomStr = fail
     - room == 1 && not entry:~nextRoomVar = -> Ending 
        ~nextRoomStr = leave
-    - room == 3: ~entry = false
+    - room == 3 && entry:
+        ~nextRoomStr = shrimpBar
+        ~nextRoomVar = ->ShrimpBar
+    - room == 3&& not entry:
+        ~nextRoomStr = nextRoomStr
     }
     {
     -room == 1: You enter the throng and move towards...
@@ -236,8 +281,10 @@ VAR roomReturn = "You're still in room "
 
 You shudder, but steel yourself. Time to go in.
 
-    -room == 3: You exit a crowd of dancers and finally see it - the snack bar. Your ultimate goal.
+    -room == 3&& entry: You exit a crowd of dancers and finally see it - the snack bar. Your ultimate goal.
 You’re nearly to your goal.
+TODO change exit room 3 text
+    -room == 3&& not entry: You start heading back the way you came, through the dance floor.
 
     }
     {
