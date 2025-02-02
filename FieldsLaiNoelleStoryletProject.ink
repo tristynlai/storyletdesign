@@ -243,8 +243,6 @@ VAR nextRoomStr = ""
 VAR acceptToken = 0
 VAR rejectToken = 0
 VAR deflectToken = 0
-VAR roomEntry = "You enter room "
-VAR roomReturn = "You're still in room "
 
 //----------------------------------------------------------------------------------//
 
