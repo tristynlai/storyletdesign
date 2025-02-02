@@ -15,7 +15,7 @@ TODO Put Storylet condition, entry statement, and knot name here ending with "(r
 // <- Storylet name(ret)
 +{room<4}[I trigger the test story1] <- TESTStorylet1(ret)
 *{room<3&& not entry}[Wait is that a seagull?] <- TESTSeagullStorylet(ret)
-* {room==1} [A nervous man in a suit] <- SpyIntro(ret)
+*{room==1} [A nervous man in a suit] <- SpyIntro(ret)
 ->DONE
 
 //Storylets
@@ -114,7 +114,7 @@ You stumble out, beacon in pocket.
 
 
 === Intro ===
-Silver Tongue
+-Silver Tongue-
 
 {
 -not shopped:
@@ -164,9 +164,9 @@ VAR entry = true
 VAR room = 0
 VAR nextRoomVar = ->Rooms
 VAR nextRoomStr = ""
-VAR acceptToken = 5
-VAR rejectToken = 5
-VAR deflectToken = 5
+VAR acceptToken = 0
+VAR rejectToken = 0
+VAR deflectToken = 0
 VAR roomEntry = "You enter room "
 VAR roomReturn = "You're still in room "
 
