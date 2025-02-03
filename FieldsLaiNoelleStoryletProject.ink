@@ -12,6 +12,13 @@ VAR leave = "Leave the building"
 VAR leaveShrimpBar = "time to go"
 VAR fail = "Are those Security Guards approaching?"
 
+//VAR for Storylet Conditions
+VAR spydeflect = false
+VAR returning = false
+VAR hasBeacon = false
+VAR imhungieaccept = false
+VAR hasFood = false
+
 //StoryletHolder
 TODO Put Storylet condition, entry statement, and knot name here ending with "(ret)"
 ===TableofContents(->ret)===
@@ -112,6 +119,9 @@ Oh shit. Shit shit shit this is so awkward. You stand stunned as a little mechan
 “Your mission, Agent F, is to tag the Ivory Falcon with this covert tracking beacon. I trust a man of your... tastes will remember her photograph from the briefing? In any case, slip the beacon in her clothing so we can follow her back to base, and you will be handsomely rewarded.”
 
 You stumble out, beacon in pocket.
+
+~hasBeacon = true
+
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
@@ -242,6 +252,7 @@ You duck and weave gracefully through the party until you bump into a woman who 
 
 +{acceptToken > 0}[Accept]
     ~acceptToken --
+    ~imhungieaccept = true
     “ONE PIZZA, COMING RIGHT UP.”
 
 Her eyes light up and she stares at you, awestruck.
@@ -277,6 +288,413 @@ You do know. You nod in sympathy.
 “Alright, guess we both gotta just go over there, huh? See ya.”
 
 You both step forward into the crowds. Maybe you’ll see her again?
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
+
+//Zone 2-------------------------------------------------------------------------------//
+===AskForDance(->ret)===
+You shoulder through the throng of dancers, but one woman interrupts your pushes, twirling into your way with an elegant skill. She wears a flowing white robe that matches her artificially pale hair. 
+
+The music changes, and she holds out a hand.
+
+“May I have this dance?”
+
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “OF COURSE, LEAD THE WAY.”
+
+You two flow across the dancefloor, a swirling binary star surrounded by an  inky blackness of talent.
+
+You’re captivating, brilliant, an excellent pair. Who knew old K’Thk still had it?
+
+For timeless moments you dance... but you have a mission. You pull away.
+
+“Goodbye, friend,” the pale woman says. “Until another dance.”
+
+You leave, duty on your mind.
+
+
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    “I MUCH PREFER DANCING BY MYSELF.”
+“Of course.  So long, stranger.” She twirls off, and so do you.
+
+You sense some stares on you, as you leave this woman behind. Some burly men watch from nearby. Could they be suitors? Or... bodyguards?
+
+Whoever they are, they didn’t like this interaction and certainly don’t like you.
+
+You leave double-time.
+~ credibility --
+->StatusUpdate->
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “HEY, YOU EVER NOTICE HOW THERE’S A TON OF BIG INTIMIDATING GUYS WATCHING YOU?”
+She cocks an eyebrow. Damn this translator mouth! What the hell is it doing?!
+
+You- wait, it’s right. There *are* many burly, hidden men watching this conversation. They glower at you.
+
+She smiles. “Why, even an Ivory Falcon needs her... flight feathers, mm?”
+
+The men approach and pull her away. Bodyguards? “Another dance, perhaps.”
+
+You leave double-time.
+~ credibility --
+
+->StatusUpdate->
+
++{hasBeacon} [Plant Tracker Beacon]
+    That spy person asked you to plant this on a “white falcon,” right? There is clearly a... white motif going on here. This is probably what he wanted. You assume.
+
+You reach forward and covertly stick the beacon to a hem of her dress. She doesn’t appear to notice, as she’s currently lost in your eyes. You hold your breath.
+
+“Well, I’ll take your silence as a no. So long, stranger.” She twirls off, and so do you.
+~hasBeacon = false
+
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
+
+===PrintPhoto(->ret)===
+TODO
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    
+~ credibility --
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    
+->StatusUpdate->
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
+
+===PushySalesman(->ret)===
+“Party surprise pack! Get your perfect party food pack here!” A loud, pushy man is yelling over the din, hawking his wares. Everyone around him is giving him dirty looks but he is paying them no mind.
+
+He approaches you with some shoddily constructed plastic boxes of food. “Hey, you want one! I know it!”
+
+This man appears to be reselling hors d'oeuvres he’s snatched from various waiters. He keeps pestering you for an answer.
+
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “LET ME GET MY WALLET, GOOD SIR!”
+
+You buy some ripoff meal, to get him to leave you alone. It seems to work, at least, as he moves out of your way satisfied.
+
+{imhungieaccept == true:
+    That hungry woman from earlier would probably appreciate this... even if it’s not pizza.
+    ~hasFood = true
+}
+
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    “NO THANK YOU.”
+--> PushySalesman2 (ret)
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “WHY ARE YOU DOING THIS?”
+--> PushySalesman2 (ret)
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
+
+===PushySalesman2(->ret)===
+“Hey come on, don’t be like that!” he shouts over the thumping beats.
+
+“This is GOOD STUFF, buddy! You want to buy!”
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “LET ME GET MY WALLET, GOOD SIR!”
+
+You buy some ripoff meal, to get him to leave you alone. It seems to work, at least, as he moves out of your way satisfied.
+
+{imhungieaccept == true:
+    That hungry woman from earlier would probably appreciate this... even if it’s not pizza.
+    ~hasFood = true
+}
+
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    “GET OUT OF MY WAY.”
+
+“Alright, FINE! Have it your way, but you’ll regret it!”
+The man wanders off.
+
+->StatusUpdate->
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “YOU KNOW, THOSE MEAL BOXES LOOK AN AWFUL LOT LIKE REPACKAGED APPETIZERS FROM THIS VERY PARTY.”
+
+	He pales. “Alright, FINE! Have it your way, but you’ll regret it!”
+The man wanders off.
+
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
+
+===KindStranger(->ret)===
+
+TODO
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    
+~ credibility --
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    
+->StatusUpdate->
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
+
+//Zone 3-------------------------------------------------------------------------------//
+
+===WhereSummer(->ret)===
+A gaggle of rich-seeming younger men gather in a thoroughfare, gesturing with their cups. You need to get through that thoroughfare. One talks animatedly.
+
+“Fiji is a classic, of course. Most Caribbean islands are excellent, but Fiji holds a special place in my heart.”
+
+A notification appears on your Heads Up Display - “Fiji is located in the southern Pacific region of Earth, not in the Caribbean.”
+
+The HUD - you’d forgotten you bought that thing, much less had it installed. It was even cheaper than the translator. Guess they could only fit one factoid on it.
+
+
+“And you,” says the rich man, drawing you back to the present. “Where do you summer?”
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “I SUMMER AT THE LOUVRE, USUALLY.”
+
+The men relax. “Ah, a good choice! But you haven’t really experienced the Louvre until you’ve brought a painting or two home.”
+
+“Eh, they’re tacky but it gets me respect when people see it in my foyer,” another man adds. “You should see my TEDex talk, it’s all about the importance of a good foyer.”
+
+You are nobody’s “mans,” but you hold your comment. No use spending more translations. Instead you nod.
+
+The conversation shifts to gaudy details added to their homes, and you feel it’s time to go.
+
+“Hey, have a good one.” You roll your eyes and leave. Seems the rich are the same, no matter what planet they’re from. And now that you’ve been seen kindly associating with them... you’re getting some dirty looks from the crowd.
+
+~ credibility --
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    “I DON’T HAVE TIME FOR SUMMERING, BECAUSE I’M ALWAYS WORKING HARD.”
+
+One man nods. “Ah, the grind never stops, right? I respect it.”
+
+Another. “I work 22 hour days, y’know. It’s how I got my billions - hard work!”
+
+Yet another “These lazy poors just want handouts! Completely unlike us, of course!”
+
+He gets a round of nods and murmured approval. You take that opportunity to dash away.
+
+Jerks. Seems like the rich are the same, no matter their planet of origin.
+
+->StatusUpdate->
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “FIJI IS LOCATED IN THE SOUTHERN PACIFIC REGION OF EARTH, NOT IN THE CARIBBEAN.”
+
+The conversation stalls, before the man chimes back in. 
+
+“Well, of course. That’s what I said.” He most certainly did not.
+
+Another. “Yeah, are you dumb or something?” 
+
+The group turns to you, asserting their superiority between themselves by calling you names and insulting your intelligence. You don’t have time for this.
+
+You leave, allowing them to think they won a victory here.
+
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
+
+===AwkwardLady(->ret)===
+You bump into someone who clearly does not belong at this party. A woman with long curly hair and glasses askew, who seems eager to talk to you.
+
+“H-hey! I’m supposed to talk to people and get out there, so... uh.... you wanna hear about this really cool book I like?”
+
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “SURE, LAY IT ON ME CHIEF.“
+
+Her eyes light up. She’s been waiting for someone to respond like this. Oh no.
+
+“Okay, so basically it’s this really cool web serial - a web serial is like a giant story that’s published weekly on the internet, or maybe bi-weekly or something, and it’s like carrying on that serial publication method of, like, Mark Twain stories and Dracula and stuff - well anyways it’s a giant web serial called Pale, and it’s really great!”
+
+Brother.
+
+“And okay so Pale is basically a huge urban fantasy web serial about these three teenagers who are investigating the murder of a dead god in their Canadian hometown, and- well actually it’s a dead Judge, gods are technically a different thing in-universe but. I mean maybe first I should explain that, uh, the world is like ours and there’s a secret magic world with magic ‘Practitioners’ and magical creatures called ‘Others’ and-”
+
+You maintain circular breathing through your eyes, tapping your foot. When will this conversation end?
+
+“-drop is the best one, but as I was saying the story is all about how they learn to survive and grow their power as compassionate outsiders, and, like, what do you do when the justice system is broken, and do you fix it from the inside or tear it down and rebuild? And all these other interesting questions about morality but it’s not boring at all, it’s super exciting because the girls all-”
+
+You wonder if your mission is worth this.
+
+“-agic system is basically all about Karma, and Law and sorta storybook logic so sometimes fights are big spells but othertimes it’s more of a life or death legal battle with both sides trying to convince the spirits they’re in the right to get a magic powerup and screw with their enemy, which is just absolutely gripping to read! And the bad guys are crazy and great!”
+
+She barely even seems to know you’re there, lost in remembrance as she is.
+
+“Oh, and don’t even get me started on-”
+
+You don’t. In the midst of her babbling you manage to slip away. 
+
+Yeesh.
+
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    “NOPE, I’M OUT.”
+
+The woman looks so awkward she could burst.
+
+“W-well... what about... uh...”
+
+You stare at her, for several silent seconds, and she caves.
+
+“Oh, forget it. Um, I’m so sorry...”
+
+You leave, and feel sorta bad about it.
+
+~ credibility --
+->StatusUpdate->
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “MY FAVORITE BOOK IS WEBSTER’S 1828 AMERICAN DICTIONARY OF THE ENGLISH LANGUAGE!”
+
+You have no idea what that means but assume it must be quite popular here on Earth, because the woman’s eyes widen.
+
+“W...well that’s- It’s uh, a very long book. And if you’re into very long books you might like... eh, forget it.”
+
+She sighs. “I’m just not cut out for this networking thing, huh? You have a good night.”
+
+You leave her.
+
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
+
+===Napkin(->ret)===
+You stumble through this crowded space, squeezing past suited people carrying plates of hors d'oeuvres and occasionally spilling some on yourself. You’re so close to your goal it hardly matters to you at this point.
+
+But one kind soul stops you - a frazzled looking man, with askew glasses, a tropically patterned suit jacket, and two napkins in his pocket.
+
+“Hi, sorry, you’ve got some schmutz on your shirt! Can I get it for you?”
+
+He pulls one of the napkins out and gestures to you. You’re astonished to see that, on it, there’s a crude pen sketch of what is obviously a Gg’Knl’Prb Drive. This man must have invented it in a fit of genius earlier in the night, writing down the design on this napkin. But now, he is accidentally offering the key to the cosmos... to clean a mayo stain.
+
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “THANK YOU.”
+
+You hesitantly take the napkin, and wipe it across your face and clothes. The napkin is a smeared blur when you’re done.
+
+You’ll probably be more palatable to the partygoers, but it cost... humanity’s future. The man smiles up at you, oblivious.
+
+“It’s no problem at all.”
+
+You go, feeling sick.
+
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    “KEEP THE NAPKIN, I LIKE IT LIKE THIS.”
+
+He pulls back, confused. “O..okay?”
+
+The napkin goes back into his pocket. You let out a sigh - humanity’s future is secured.
+
+And yet... now he thinks you’re weird, and you’re still covered in mayo. Fantastic.
+
+~ credibility --
+->StatusUpdate->
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “WHAT’S A GUY LIKE YOU DOING AT A PARTY LIKE THIS?”
+		
+		“Now what’s that supposed to mean?” He pulls back the hand with the napkin, smirking. “Is it that clear I’d rather be back in the lab?”
+
+		You shrug.
+		“Perhaps you’d be interested in seeing it sometime?” He grins widely. “I’m always happy to show people around. Especially... someone like you.”
+
+Does he know you’re an alien? You panic briefly, before thinking it through. No, this is simply human flirting. Awkward, awkward flirting. What a relief.
+
+You give a thumbs up. He laughs.
+
+“Here’s my cell,” he says, handing you a paper square with some numbers on it. “Call me later?”
+
+You’ve already interfered enough in this planet, so there’s no way you’ll-
+
+He suddenly wipes your face with the drawn-on napkin. Shit.
+
+		...Maybe you’ll leave him a reminder, you think, as you saunter away.
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
