@@ -119,6 +119,172 @@ You stumble out, beacon in pocket.
     TODO
 -->ret
 
+===DrunkSpill(->ret)===
+You stroll through these throngs of humans, taking the quickest path. But a loud argument is taking place along the way. One arguer is a drunk-seeming young man wearing an elaborate suit stained with red, and the other is an older man with an empty glass.
+
+“Well I ain’t paying for it! It’s your mistake!” The older man is adamant.
+
+“Heyyyyy, you!” The drunk man calls you in. “Thissss jerk spilled shit on my brrrrrrrand new shirt! He owes me, right?”
+
+“You bumped me first, don’t misrepresent the facts.”
+
+“Hey, I’m talkinnnnn to this guy now. He owes me, RIGHT?”
+
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “YEAH, I’D SAY SO.”
+
+“Hey, come on man!” the older man cries. “The hell?”
+
+It seems the general crowd’s perception has changed. At first he was a victim of a drunk bully, but now he’s an ass who assaulted a helpless drunk. He skulks away toward the elevator.
+
+“You... I llllllike you. You’ve made a powerful ally. My family is in a... certain bus. Busis. Bininess.” He pulls a coin from his pocket, and, even as drunk as he is, effortlessly rolls it across his knuckles. “You did me a good turn, weeeee do you. A one.”
+
+He flips you the coin and you grab it by instinct. You don’t like the sound of that, but leave before any followup.
+
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    “THIS PREMISE IS SO DUMB I’M NOT GOING TO DIGNIFY IT WITH A RESPONSE.”
+
+“So wait...” The drunk man pauses to think, brain working at minimum efficiency. “That means you. You don’t think hhhhe owes me?”
+
+“What’d I tell you,” says the older man. “I’m out of here.” He slides through the throng effortlessly. You take that as leave for you to go too.
+
+“Hey. HEY! You’ve BOTH made a powerful enemy! Don’t you know my. Who my mom is!”
+~ credibility --
+    
+->StatusUpdate->
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “HEY YOU BOTH HAVE THE SAME NOSE! ISN’T THAT INTERESTING!”
+
+“We do?” they both ask simultaneously.
+
+The drunk one squints and suddenly laughs.
+
+“We do! Come here Nose Bro!” He slumps forward in a big hug around the other man, who shrugs and hugs back.
+
+“I mean, why not.”
+
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
+
+===Photos(->ret)===
+A redheaded photographer approaches, camera around her neck and hand bag at her hip. She tracks you down and gets in your way. You catch a flash of some landscape photos in the bag, before it bends out of sight. She asks, bluntly, if you want a photo of yourself.
+
+“You’ll be able to print them out by the dance floor, up ahead. Make some New Year’s memories!”
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “CAN’T HURT.”
+
+A bright flash! Your eyes are flooded, blinded, broken - you blink instinctively, and  feel like you can hardly breathe. But, painfully, it fades.
+
+The photographer looks down at her camera’s viewfinder, then at you, concerned.  You use the only Earth gesture you can remember - a thumbs up.
+
+The photographer warily moves on, and you do too.
+
+~ credibility --
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    “NOT GONNA HAPPEN.”
+
+“Well, that’s one way to put it, but fine.”
+
+The photographer walks off, red hair bobbing away. She seems much more annoyed now. Was it something you said?
+
+“What am I even doing here?” she mutters.
+
+Well in any case, the floor is clear to keep going.
+
+->StatusUpdate->
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “YOU MAKE BEAUTIFUL LANDSCAPES, SO WHAT ARE YOU DOING TAKING PICTURES OF PEOPLE?”
+
+	“Oh!” She blushes, hand going to her bag. “You... really think they’re beautiful?”
+
+	You reach a hand out. She gives you some pictures from the bag. They are genuinely very intriguing to you. Then again, you’ve never seen Earth art before... so it’s all quite novel. You nod.
+	
+She takes the pictures back, and fiddles with a ring on her finger. “Landscapes don’t always pay the bills, you know. Sometimes I need to take jobs I don’t love to care for the people I do. Love, I mean.”
+
+	You offer a thumbs up, the only Earth gesture you can remember. It seems to help, as she laughs.
+
+“Well, back to work then!” You go your separate ways. Only after losing sight of her in the crowd do you realize you still have one landscape - a green mountain range. You pocket it for now.
+
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
+
+===ImHungie(->ret)===
+You duck and weave gracefully through the party until you bump into a woman who turns to you with an expression of desperate pain.
+
+“I’m hungie I’m hungie I’m hungie...” She groans as she slumps down. Her stomach gurgles agreement.
+
+“Hey you! I’m hungie, can you bring me back a pizza?”
+
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “ONE PIZZA, COMING RIGHT UP.”
+
+Her eyes light up and she stares at you, awestruck.
+
+“Ohmygosh thanks so muuuuuuuch. I’m just so hungie you don’t even know! I’ll wait here.”
+
+You continue on. You may or may not bring her a pizza, but either way she has certainly  expanded your vocabulary.
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    “WHY ASK ME TO GET YOU FOOD? I DON’T EVEN KNOW YOU.”
+
+
+“I’m just really hungie, man! Lady! I dunno, I can't think right now the HUNGIE is in my braaaiiinnnsss...”
+	
+	You don’t have time for this, and leave her in a gurgling heap on the floor.
+->StatusUpdate->
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “WHAT’S YOUR NAME, LADY?”
+	
+	“Uuuuugggghhhh my name is Isabella. Don’t worry about the last name. I’m really fancy and belong, okay? What, you wanna know everything about me? I’m hungie, I just need a pizza. Get me a pizza, I’m hungie.”
+
+You look expectantly. She matches your gaze then moans and slumps into a chair.
+
+“Okay, fine. So maybe I snuck into this party for free food. But the snack bar is all the way over there, and I’m over here, you know?”
+
+You do know. You nod in sympathy.
+
+“Alright, guess we both gotta just go over there, huh? See ya.”
+
+You both step forward into the crowds. Maybe you’ll see her again?
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You stayed Silent
+    TODO
+-->ret
+
+
 //----------------------------------------------------------------------------------//
 
 
