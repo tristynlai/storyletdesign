@@ -368,6 +368,7 @@ Her eyes light up and she stares at you, awestruck.
 “Ohmygosh thanks so muuuuuuuch. I’m just so hungie you don’t even know! I’ll wait here.”
 
 You continue on. You may or may not bring her a pizza, but either way she has certainly  expanded your vocabulary.
+~ credibility --
 ->StatusUpdate->
 
 +{rejectToken>0}[Reject]
@@ -430,7 +431,10 @@ You run, leaving a very angry woman behind and making a huge scene.
 
 You shove her out of the way before she can even attempt to snatch at the Holiest Ones.
 
+Nearby partygoers gasp at this sudden display of rudeness.
+
 From behind, you hear a quiet “Aww man!”
+~ credibility --
 
 ->StatusUpdate->
 
@@ -562,13 +566,13 @@ You buy some ripoff meal, to get him to leave you alone. It seems to work, at le
 +{rejectToken>0}[Reject]
     ~rejectToken --
     “NO THANK YOU.”
---> PushySalesman2 (ret)
+ -> PushySalesman2 (ret)
 
 
 +{deflectToken > 0}[Deflect]
     ~deflectToken--
     “WHY ARE YOU DOING THIS?”
---> PushySalesman2 (ret)
+-> PushySalesman2 (ret)
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
 ->Silent->
@@ -771,7 +775,6 @@ You stare at her, for several silent seconds, and she caves.
 
 You leave, and feel sorta bad about it.
 
-~ credibility --
 ->StatusUpdate->
 
 
@@ -787,6 +790,7 @@ She sighs. “I’m just not cut out for this networking thing, huh? You have a 
 
 You leave her.
 
+~ credibility --
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
@@ -947,16 +951,16 @@ You can still afford {money} lines of dialogue. Might as well spend it all.
     ~money --
     You purchased one DEFLECT response
     ->ShopStart(exit)
-+{money == 10}[Buy a QuikStart Pak]
-    This will give you 4 ACCEPTS, 3 DEFLECTS, and 3 REJECTS
-    This will cost 10 credits
++{money == 6}[Buy a QuikStart Pak]
+    This will give you 2 ACCEPTS, 2 DEFLECTS, and 2 REJECTS
+    This will cost 6 credits
     Are you sure you want to purchase this?
     **[yes]
     You've purchased One (1) QuikStartPak
     ~money = 0
-    ~acceptToken = 4
-    ~rejectToken = 3
-    ~deflectToken = 3
+    ~acceptToken = 2
+    ~rejectToken = 2
+    ~deflectToken = 2
     ->ShopStart(exit)
     ++[no]
     ->ShopStart(exit)
@@ -969,15 +973,15 @@ You can still afford {money} lines of dialogue. Might as well spend it all.
 You now have {acceptToken} ACCEPTS, {rejectToken} REJECTS, and {deflectToken} DEFLECTS.
 {
 -credibility > 4:
-Nobody suspects a thing
+Nobody suspects a thing.
 -credibility == 4:
-You've gotten a few odds looks
+You've gotten a few odds looks.
 -credibility == 3:
-People seem distracted by you when you pass by
+People seem distracted by you when you pass by.
 -credibility == 2:
-It feels like everybody is staring at you
+It feels like everybody is staring at you.
 -credibility < 2: 
-People are pointing at you and whispering
+People are pointing at you and whispering.
 }
 
 ->->
@@ -987,6 +991,7 @@ You try to respond, but your translator is out of juice. The lips hang limply on
 
 You slink off in shame, the eyes of the whole party on you.
 ~ credibility -= 2
+->StatusUpdate->
 ->->
 
 ===ShrimpBar=== 
@@ -1003,7 +1008,6 @@ But not all of them are shrimp. You lean over a tub, and see five Holiest Ones s
 You reach forward and, in your fist, grab all five. You turn to leave. It’s time to sprint out of here.
 
 ~nextRoomVar = -> Rooms
-~entry = false
 ~nextRoomStr = leaveShrimpBar
 ~returning = true
         
@@ -1012,7 +1016,7 @@ You reach forward and, in your fist, grab all five. You turn to leave. It’s ti
 --> RoomExit
 
 === Ending ===
-You've escaped
+After what feels like years, you finally reach the elevator. You’ve escaped, with the Holiest Ones in your possession. It was exhausting, it was touch-and-go at times... but you did it. You’re a hero.
 ->END
 
 ===Failure===
@@ -1023,7 +1027,7 @@ You start to move to the next room, but wait... some people are approaching imme
 Seems like you made enough of an ass of yourself to get kicked out. Well... shit.
 
 {
-- not entry:
+- returning:
 Actually... wait, this is what you want! Now they’ll escort you and the Holiest Ones out of here.
 
 One guard grabs your arm. “And no free food!”
@@ -1035,9 +1039,8 @@ He snatches the Holiest Ones from your hand, and, in horror, you watch him swall
 //----------------------------------------------------------------------------------//
 
 //Variables
-VAR money = 10
+VAR money = 6
 VAR credibility = 5
-VAR entry = true
 VAR room = 0
 VAR nextRoomVar = ->Rooms
 VAR nextRoomStr = ""
@@ -1050,6 +1053,11 @@ VAR deflectToken = 0
 
 //Generic Exit Room prompt
 ===RoomExit===
+{
+    - credibility < 1: 
+    ~nextRoomVar = -> Failure
+    ~nextRoomStr = fail
+}
     +[{nextRoomStr}] -> nextRoomVar
 
 //Generic Room Template
@@ -1059,19 +1067,19 @@ VAR deflectToken = 0
     ~nextRoomStr = moveRoom
     //Sets up next room
     {
-        - entry: ~room ++
-        - not entry: ~room --
+        - not returning: ~room ++
+        - returning: ~room --
     }
     // Handles special Cases
     {
     - credibility < 1: ~nextRoomVar = -> Failure
      ~nextRoomStr = fail
-    - room == 1 && not entry:~nextRoomVar = -> Ending 
+    - room == 1 && returning:~nextRoomVar = -> Ending 
        ~nextRoomStr = leave
-    - room == 3 && entry:
+    - room == 3 && not returning:
         ~nextRoomStr = shrimpBar
         ~nextRoomVar = ->ShrimpBar
-    - room == 3&& not entry:
+    - room == 3&& returning:
         ~nextRoomStr = nextRoomStr
     }
     {
@@ -1082,12 +1090,12 @@ You shudder, but steel yourself. Time to go in.
 
 You move towards...
 
-    -room == 3&& entry: You exit a crowd of dancers and finally see it - the snack bar. Your ultimate goal.
+    -room == 3&& not returning: You exit a crowd of dancers and finally see it - the snack bar. Your ultimate goal.
 You’re nearly to your goal.
 
 You move towards...
 TODO change exit room 3 text
-    -room == 3&& not entry: You start heading back the way you came, through the dance floor.
+    -room == 3&& returning: You start heading back the way you came, through the dance floor.
     
     You move towards...
 
