@@ -28,7 +28,7 @@ VAR drunkspillaccept = false
 TODO Put Storylet condition, entry statement, and knot name here ending with "(ret)"
 ===TableofContents(->ret)===
 // <- Storylet name(ret)
-+{room<4}[Oops broke the table of contents] <- TESTStorylet1(ret)
++{room>4}[Oops broke the table of contents] <- TESTStorylet1(ret)
 *{room<3&& not entry}[Wait is that a seagull?] <- TESTSeagullStorylet(ret)
 *{room==1} [A nervous man in a suit] <- SpyIntro(ret)
 *{room==1 && spydeflect && returning} [A familiar spy handler] <- Spy2(ret)
@@ -84,7 +84,8 @@ You're still being attacked by a seagull
     ~deflectToken --
     You deflected
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You stayed Silent
+    ->Silent->
+    
 --> ret
 
 ===SpyIntro(->ret)===
@@ -145,10 +146,8 @@ You stumble out, beacon in pocket.
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
+->Silent->
 
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
 -->ret
 
 ===Spy2(->ret)===
@@ -220,10 +219,7 @@ You’ve earned this.
 -> Parachute
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
+->Silent->
 
 -->ret
 
@@ -295,10 +291,7 @@ The drunk one squints and suddenly laughs.
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
+->Silent->
 
 -->ret
 
@@ -354,10 +347,7 @@ She takes the pictures back, and fiddles with a ring on her finger. “Landscape
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
+->Silent->
 
 -->ret
 
@@ -410,10 +400,7 @@ You both step forward into the crowds. Maybe you’ll see her again?
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
+->Silent->
 
 -->ret
 
@@ -469,10 +456,7 @@ You run out. So close to the exit.
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
+->Silent->
 
 -->ret
 
@@ -543,10 +527,7 @@ You reach forward and covertly stick the beacon to a hem of her dress. She doesn
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
+->Silent->
 
 -->ret
 
@@ -591,10 +572,7 @@ You buy some ripoff meal, to get him to leave you alone. It seems to work, at le
 --> PushySalesman2 (ret)
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
+->Silent->
 
 -->ret
 
@@ -637,10 +615,7 @@ The man wanders off.
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
+->Silent->
 
 -->ret
 
@@ -743,10 +718,7 @@ You grin mysteriously and leave the conversation, which has moved beyond you, fo
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
+->Silent->
 
 -->ret
 
@@ -819,10 +791,7 @@ You leave her.
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
+->Silent->
 
 -->ret
 
@@ -887,10 +856,7 @@ He suddenly wipes your face with the drawn-on napkin. Shit.
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 2
+->Silent->
 
 -->ret
 
@@ -1008,8 +974,26 @@ You can still afford {money} lines of dialogue. Might as well spend it all.
         
 ===StatusUpdate===
 You now have {acceptToken} ACCEPTS, {rejectToken} REJECTS, and {deflectToken} DEFLECTS.
-TODO Remove Debugs
-DEBUG you are currently in room {room}
+{
+-credibility > 4:
+Nobody suspects a thing
+-credibility == 4:
+You've gotten a few odds looks
+-credibility == 3:
+People seem distracted by you when you pass by
+-credibility == 2:
+It feels like everybody is staring at you
+-credibility < 2: 
+People are pointing at you and whispering
+}
+
+->->
+
+===Silent===
+You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
+
+You slink off in shame, the eyes of the whole party on you.
+~ credibility -= 2
 ->->
 
 ===ShrimpBar=== 
