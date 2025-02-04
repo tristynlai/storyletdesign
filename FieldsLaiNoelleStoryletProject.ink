@@ -21,6 +21,7 @@ VAR hasFood = false
 VAR photographaccept = false
 VAR photographdeflect = false
 VAR pushysalesmanaccept = false
+VAR drunkspillreject = false
 
 //StoryletHolder
 TODO Put Storylet condition, entry statement, and knot name here ending with "(ret)"
@@ -29,6 +30,19 @@ TODO Put Storylet condition, entry statement, and knot name here ending with "(r
 +{room<4}[Oops broke the table of contents] <- TESTStorylet1(ret)
 *{room<3&& not entry}[Wait is that a seagull?] <- TESTSeagullStorylet(ret)
 *{room==1} [A nervous man in a suit] <- SpyIntro(ret)
+*{room==2} [An argument] <- DrunkSpill(ret)
+*{room==3} [A photographer] <- Photos(ret)
+*{room==4} [A woman in pain] <- ImHungie(ret)
+*{room==4 && imhungieaccept && returning} [A familiar hungry woman] <- ImHungie2(ret)
+*{room==5} [An elegant dancer] <- AskForDance(ret)
+*{room==6 && photographaccept && returning} [A photo printing station] <- PrintPhoto(ret)
+*{room==7} [A salesman] <- PushySalesman(ret)
+*{room==8 && drunkspillreject} [A familar stranger] <- KindStranger(ret)
+*{room==9} [A group of rich-looking younger men] <- WhereSummer(ret)
+*{room==10} [An awkward-looking young woman] <- AwkwardLady(ret)
+*{room==11} [A kind soul] <- Napkin(ret)
+*{room==12 && returning} [A bird] <- SeagullAttack(ret)
+
 ->DONE
 
 //Storylets
@@ -160,8 +174,9 @@ He flips you the coin and you grab it by instinct. You don’t like the sound of
 
 ->StatusUpdate->
 
-*{rejectToken>0}[Reject]
++{rejectToken>0}[Reject]
     ~rejectToken --
+    ~drunkspillreject = true
     “THIS PREMISE IS SO DUMB I’M NOT GOING TO DIGNIFY IT WITH A RESPONSE.”
 
 “So wait...” The drunk man pauses to think, brain working at minimum efficiency. “That means you. You don’t think hhhhe owes me?”
@@ -215,7 +230,7 @@ The photographer warily moves on, and you do too.
 ~ credibility --
 ->StatusUpdate->
 
-*{rejectToken>0}[Reject]
++{rejectToken>0}[Reject]
     ~rejectToken --
     “NOT GONNA HAPPEN.”
 
@@ -275,7 +290,7 @@ Her eyes light up and she stares at you, awestruck.
 You continue on. You may or may not bring her a pizza, but either way she has certainly  expanded your vocabulary.
 ->StatusUpdate->
 
-*{rejectToken>0}[Reject]
++{rejectToken>0}[Reject]
     ~rejectToken --
     “WHY ASK ME TO GET YOU FOOD? I DON’T EVEN KNOW YOU.”
 
@@ -332,7 +347,7 @@ You run, leaving a very angry woman behind and making a huge scene.
 
 ->StatusUpdate->
 
-*{rejectToken>0}[Reject]
++{rejectToken>0}[Reject]
     ~rejectToken --
     “SORRY, NO TIME.”
 
@@ -396,7 +411,7 @@ You leave, duty on your mind.
 
 ->StatusUpdate->
 
-*{rejectToken>0}[Reject]
++{rejectToken>0}[Reject]
     ~rejectToken --
     “I MUCH PREFER DANCING BY MYSELF.”
 “Of course.  So long, stranger.” She twirls off, and so do you.
@@ -473,7 +488,7 @@ You buy some ripoff meal, to get him to leave you alone. It seems to work, at le
 
 ->StatusUpdate->
 
-*{rejectToken>0}[Reject]
++{rejectToken>0}[Reject]
     ~rejectToken --
     “NO THANK YOU.”
 --> PushySalesman2 (ret)
@@ -511,7 +526,7 @@ You buy some ripoff meal, to get him to leave you alone. It seems to work, at le
 
 ->StatusUpdate->
 
-*{rejectToken>0}[Reject]
++{rejectToken>0}[Reject]
     ~rejectToken --
     “GET OUT OF MY WAY.”
 
@@ -582,7 +597,7 @@ The conversation shifts to gaudy details added to their homes, and you feel it�
 ~ credibility --
 ->StatusUpdate->
 
-*{rejectToken>0}[Reject]
++{rejectToken>0}[Reject]
     ~rejectToken --
     “I DON’T HAVE TIME FOR SUMMERING, BECAUSE I’M ALWAYS WORKING HARD.”
 
@@ -680,7 +695,7 @@ Yeesh.
 
 ->StatusUpdate->
 
-*{rejectToken>0}[Reject]
++{rejectToken>0}[Reject]
     ~rejectToken --
     “NOPE, I’M OUT.”
 
@@ -744,7 +759,7 @@ You go, feeling sick.
 
 ->StatusUpdate->
 
-*{rejectToken>0}[Reject]
++{rejectToken>0}[Reject]
     ~rejectToken --
     “KEEP THE NAPKIN, I LIKE IT LIKE THIS.”
 
@@ -785,6 +800,53 @@ He suddenly wipes your face with the drawn-on napkin. Shit.
 
 You slink off in shame, the eyes of the whole party on you.
 ~ credibility -= 20
+
+-->ret
+
+===SeagullAttack(->ret)===
+A loud whitish bird with an orange beak flies into your way and caws loudly. From your research, you know this is a seagull - one of the threats you hoped not to face.
+
+It waddles forward, wings extended and cawing at you. It wants the Holiest Ones in your hand. But perhaps you can reason with it?
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “CAW CAW CAW, MY FRIEN-”
+--> Seagull2 (ret)
+
++{rejectToken>0}[Reject]
+    ~rejectToken --
+    “I AM TERRIBLY SORRY BUT I’M AFRAID THESE ARE MIN-”
+->StatusUpdate->
+--> Seagull2 (ret)
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “MY, HOW SHINY YOUR BEAK IS LOOKING TODA-”
+--> Seagull2 (ret)
+
++{hasBeacon}[Plant tracker beacon on the seagull]
+    You were supposed to put this tracking beacon on the “Ivory Falcon,” right?
+Well, this is a white bird too. Probably close enough.
+
+You wordlessly, snap forward with your other hand and stick the tracking beacon to the seagull’s feathers. It caws loudly and takes off, beacon blipping quietly.
+
+Threat resolved, you head on.
+    ~hasBeacon = false
+-->ret
+
+===Seagull2(->ret)===
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+
+
+->StatusUpdate->
+
+Before your translator can finish, the bird flies at your face, pecking and clawing. You scuffle briefly and frantically before it takes off again. Luckily, it doesn’t seem to have grabbed any Holiest Ones. 
+
+You shake your fist at the sky as it flies off. Jerk!
+
+You leave before anything else picks up the smell.
 
 -->ret
 
