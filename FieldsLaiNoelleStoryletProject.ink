@@ -148,7 +148,7 @@ You stumble out, beacon in pocket.
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 -->ret
 
 ===Spy2(->ret)===
@@ -223,7 +223,7 @@ You’ve earned this.
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 
 -->ret
 
@@ -298,7 +298,7 @@ The drunk one squints and suddenly laughs.
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 
 -->ret
 
@@ -357,7 +357,7 @@ She takes the pictures back, and fiddles with a ring on her finger. “Landscape
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 
 -->ret
 
@@ -413,7 +413,7 @@ You both step forward into the crowds. Maybe you’ll see her again?
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 
 -->ret
 
@@ -434,7 +434,7 @@ You really, really, really don’t want to do this. This goes against everything
 You run, leaving a very angry woman behind and making a huge scene.
 
 “Hey, they stole my food!” she shouts from behind.
-~ credibility -= 20
+~ credibility -= 2
 
 ->StatusUpdate->
 
@@ -465,14 +465,14 @@ You run out. So close to the exit.
 “Mmmf, thif if great,” she gets out between bites. 
 
 “Hey, make way! Party Hero coming through!” she shouts, and the crowd parts for you.
-~ credibility += 20
+~ credibility ++
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 
 -->ret
 
@@ -546,7 +546,7 @@ You reach forward and covertly stick the beacon to a hem of her dress. She doesn
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 
 -->ret
 
@@ -594,7 +594,7 @@ You buy some ripoff meal, to get him to leave you alone. It seems to work, at le
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 
 -->ret
 
@@ -640,7 +640,7 @@ The man wanders off.
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 
 -->ret
 
@@ -746,7 +746,7 @@ You grin mysteriously and leave the conversation, which has moved beyond you, fo
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 
 -->ret
 
@@ -822,7 +822,7 @@ You leave her.
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 
 -->ret
 
@@ -890,7 +890,7 @@ He suddenly wipes your face with the drawn-on napkin. Shit.
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
 You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+~ credibility -= 2
 
 -->ret
 
