@@ -21,6 +21,7 @@ VAR photographdeflect = false
 VAR pushysalesmanaccept = false
 VAR drunkspillreject = false
 VAR drunkspillaccept = false
+VAR trackerBird = false
 
 //StoryletHolder
 TODO Put Storylet condition, entry statement, and knot name here ending with "(ret)"
@@ -40,7 +41,7 @@ TODO Put Storylet condition, entry statement, and knot name here ending with "(r
 *{room==3} [A group of rich-looking younger men.] <- WhereSummer(ret)
 *{room==3} [An awkward-looking young woman.] <- AwkwardLady(ret)
 *{room==3} [A kind soul.] <- Napkin(ret)
-*{returning} [A bird.] <- SeagullAttack(ret)
++{returning&& not trackerBird} [A bird.] <- SeagullAttack(ret)
 
 ->DONE
 
@@ -397,6 +398,15 @@ You do know. You nod in sympathy.
 You both step forward into the crowds. Maybe you’ll see her again?
 ->StatusUpdate->
 
++{pushysalesmanaccept}[Offer Salesman's snack box instead]
+    You wordlessly hold out the box you’d bought from that pushy salesman, back at the dance floor. She grabs it from you and chows down.
+
+“Mmmf, thif if great,” she gets out between bites. 
+
+“Hey, make way! Party Hero coming through!” she shouts, and the crowd parts for you.
+~ credibility ++
+->StatusUpdate->
+
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
 ->Silent->
 
@@ -474,7 +484,7 @@ The music changes, and she holds out a hand.
     ~acceptToken --
     “OF COURSE, LEAD THE WAY.”
 
-You two flow across the dancefloor, a swirling binary star surrounded by an  inky blackness of talent.
+You two flow across the dancefloor, a swirling binary star system surrounded by an  inky blackness of talent.
 
 You’re captivating, brilliant, an excellent pair. Who knew old K’Thk still had it?
 
@@ -504,7 +514,7 @@ You leave double-time.
 +{deflectToken > 0}[Deflect]
     ~deflectToken--
     “HEY, YOU EVER NOTICE HOW THERE’S A TON OF BIG INTIMIDATING GUYS WATCHING YOU?”
-She cocks an eyebrow. Damn this translator mouth! What the hell is it doing?!
+She cocks an eyebrow. Ack... this cheap ass translator mouth! What the hell is it doing?!
 
 You- wait, it’s right. There *are* many burly, hidden men watching this conversation. They glower at you.
 
@@ -869,18 +879,17 @@ It waddles forward, wings extended and cawing at you. It wants the Holiest Ones 
 +{acceptToken > 0}[Accept]
     ~acceptToken --
     “CAW CAW CAW, MY FRIEN-”
---> Seagull2 (ret)
+-> Seagull2 (ret)
 
 +{rejectToken>0}[Reject]
     ~rejectToken --
     “I AM TERRIBLY SORRY BUT I’M AFRAID THESE ARE MIN-”
-->StatusUpdate->
---> Seagull2 (ret)
+-> Seagull2 (ret)
 
 +{deflectToken > 0}[Deflect]
     ~deflectToken--
     “MY, HOW SHINY YOUR BEAK IS LOOKING TODA-”
---> Seagull2 (ret)
+-> Seagull2 (ret)
 
 +{hasBeacon}[Plant tracker beacon on the seagull]
     You were supposed to put this tracking beacon on the “Ivory Falcon,” right?
@@ -890,16 +899,25 @@ You wordlessly, snap forward with your other hand and stick the tracking beacon 
 
 Threat resolved, you head on.
     ~hasBeacon = false
+    ~trackerBird = true
+    ->StatusUpdate->
+    
+*{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Silently stare at the seagull.]
+	You stand stock still, fist full of Holiest Ones at your side. The curséd bird flaps its wings out. You think it’s an empty threat display. That is, until it flaps them and flies towards you, landing on your head.
+
+Sweat runs down your scalp as you wait. Then, seagull poop runs down your scalp as it flies off.
+~credibility --
+->StatusUpdate->
 -->ret
 
 ===Seagull2(->ret)===
-
+~credibility--
 Before your translator can finish, the bird flies at your face, pecking and clawing. You scuffle briefly and frantically before it takes off again. Luckily, it doesn’t seem to have grabbed any Holiest Ones. 
 
 You shake your fist at the sky as it flies off. Jerk!
 
 You leave before anything else picks up the smell.
-
+->StatusUpdate->
 -->ret
 
 
@@ -924,7 +942,7 @@ You bought their cheapest model. It translates three vague commands contextually
 ==Intro2 ===
 Your mission is that of a rescue - and you’re the only one coming. You cannot afford to screw up. You sigh from your eyes as you shake out your joints, bouncing on the soles of your feet alone in the elevator. It dings, opening to a crowded rooftop. Men and women in fancy outfits laugh and banter in packs around the space. The air tastes like sweat and spilled champagne. Frantic lights strobe the sky from a dance floor further in, and beyond that are food and drink tables.
 
-You can do this, K’Thk. You have {acceptToken} ACCEPTs, {rejectToken} REJECTs and {deflectToken} DEFLECTs. That should be enough for a simple party, right?
+You can do this, K’Thk. You have {acceptToken} ACCEPT(s), {rejectToken} REJECT(s), and {deflectToken} DEFLECT(s). That should be enough for a simple party, right?
 
 ~nextRoomStr = enterBuilding
 +[{nextRoomStr}]->Rooms
@@ -968,12 +986,12 @@ You can still afford {money} lines of dialogue. Might as well spend it all.
         }
         
 ===StatusUpdate===
-You now have {acceptToken} ACCEPTS, {rejectToken} REJECTS, and {deflectToken} DEFLECTS.
+You now have {acceptToken} ACCEPT(s), {rejectToken} REJECT(s), and {deflectToken} DEFLECT(s).
 {
 -credibility > 4:
 Nobody suspects a thing.
 -credibility == 4:
-You've gotten a few odds looks.
+You've gotten a few odd looks.
 -credibility == 3:
 People seem distracted by you when you pass by.
 -credibility == 2:
