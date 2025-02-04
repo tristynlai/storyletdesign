@@ -18,6 +18,9 @@ VAR returning = false
 VAR hasBeacon = false
 VAR imhungieaccept = false
 VAR hasFood = false
+VAR photographaccept = false
+VAR photographdeflect = false
+VAR pushysalesmanaccept = false
 
 //StoryletHolder
 TODO Put Storylet condition, entry statement, and knot name here ending with "(ret)"
@@ -200,6 +203,7 @@ A redheaded photographer approaches, camera around her neck and hand bag at her 
 
 +{acceptToken > 0}[Accept]
     ~acceptToken --
+    ~photographaccept = true
     “CAN’T HURT.”
 
 A bright flash! Your eyes are flooded, blinded, broken - you blink instinctively, and  feel like you can hardly breathe. But, painfully, it fades.
@@ -228,6 +232,7 @@ Well in any case, the floor is clear to keep going.
 
 +{deflectToken > 0}[Deflect]
     ~deflectToken--
+    ~photographdeflect = true
     “YOU MAKE BEAUTIFUL LANDSCAPES, SO WHAT ARE YOU DOING TAKING PICTURES OF PEOPLE?”
 
 	“Oh!” She blushes, hand going to her bag. “You... really think they’re beautiful?”
@@ -296,6 +301,65 @@ You do know. You nod in sympathy.
 “Alright, guess we both gotta just go over there, huh? See ya.”
 
 You both step forward into the crowds. Maybe you’ll see her again?
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
+
+You slink off in shame, the eyes of the whole party on you.
+~ credibility -= 20
+
+-->ret
+
+===ImHungie2(->ret)===
+You’re nearly out - but you see that hungry woman again. Despite her having several small crumb-covered plates beside her now, her stomach still groans and she still grumbles.
+
+She lights up when she sees you and stomps up into your way. Oh shit, you forgot to grab her something from the snack bar.
+
+“Yooooo I’m SOOOO hungie! You brought me back some shrimp?! Can I have em?”
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “OF COURSE, FRIEND!”
+You really, really, really don’t want to do this. This goes against everything you’re here to do, everything you believe in, your VERY BEING. She reaches forward hungrily for the Holiest Ones and you quickly pull your fist back out of the way, sweating heavily.
+
+“What the hell? I’m so hungie I could dieee! Gimme! I’m hungie I’m hungie I’M HUNGIE!!!”
+
+You run, leaving a very angry woman behind and making a huge scene.
+
+“Hey, they stole my food!” she shouts from behind.
+~ credibility -= 20
+
+->StatusUpdate->
+
+*{rejectToken>0}[Reject]
+    ~rejectToken --
+    “SORRY, NO TIME.”
+
+You shove her out of the way before she can even attempt to snatch at the Holiest Ones.
+
+From behind, you hear a quiet “Aww man!”
+
+->StatusUpdate->
+
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+   “I THINK THERE’S STILL PLENTY OF SNACKS AT THE SNACK BAR!”
+
+“Alright, alright, I’ll go myself! But I thought you said you’d get me something! Kinda a jerk move to leave a lady expecting food when she’s hungie...” she grumbles.
+
+You run out. So close to the exit.
+
+->StatusUpdate->
+
++{pushysalesmanaccept}[Offer Salesman's snack box instead]
+    You wordlessly hold out the box you’d bought from that pushy salesman, back at the dance floor. She grabs it from you and chows down.
+
+“Mmmf, thif if great,” she gets out between bites. 
+
+“Hey, make way! Party Hero coming through!” she shouts, and the crowd parts for you.
+~ credibility += 20
 ->StatusUpdate->
 
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
@@ -381,30 +445,9 @@ You slink off in shame, the eyes of the whole party on you.
 -->ret
 
 ===PrintPhoto(->ret)===
-TODO
+You see a stand of photographs that the photographer has taken over the course of the party. Many happy people... and you. Looking closer, you can just about make out the breathing vents in your irises. You... should probably grab that one.
 
-+{acceptToken > 0}[Accept]
-    ~acceptToken --
-    
-~ credibility --
-->StatusUpdate->
-
-*{rejectToken>0}[Reject]
-    ~rejectToken --
-    
-->StatusUpdate->
-
-
-+{deflectToken > 0}[Deflect]
-    ~deflectToken--
-    
-->StatusUpdate->
-
-+{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+You snatch it up, and move on.
 
 -->ret
 
@@ -418,6 +461,7 @@ This man appears to be reselling hors d'oeuvres he’s snatched from various wai
 
 +{acceptToken > 0}[Accept]
     ~acceptToken --
+    ~pushysalesmanaccept = true
     “LET ME GET MY WALLET, GOOD SIR!”
 
 You buy some ripoff meal, to get him to leave you alone. It seems to work, at least, as he moves out of your way satisfied.
@@ -455,6 +499,7 @@ You slink off in shame, the eyes of the whole party on you.
 
 +{acceptToken > 0}[Accept]
     ~acceptToken --
+    ~pushysalesmanaccept = true
     “LET ME GET MY WALLET, GOOD SIR!”
 
 You buy some ripoff meal, to get him to leave you alone. It seems to work, at least, as he moves out of your way satisfied.
@@ -495,29 +540,14 @@ You slink off in shame, the eyes of the whole party on you.
 
 ===KindStranger(->ret)===
 
-TODO
-+{acceptToken > 0}[Accept]
-    ~acceptToken --
-    
-~ credibility --
-->StatusUpdate->
+As you desperately try to push through, the crowds condense around you. You’re trapped, you can’t go forward, can’t complete the mission!
 
-*{rejectToken>0}[Reject]
-    ~rejectToken --
-    
-->StatusUpdate->
+Just then... A familiar face emerges from the mosh of bodies. The older man, who had been arguing with the younger drunk person. He sees you in distress, and offers you a hand.
 
++[Take it]
+    You grab his hand and he pulls you through the churning mash of flesh to the other side of the crowd.
 
-+{deflectToken > 0}[Deflect]
-    ~deflectToken--
-    
-->StatusUpdate->
-
-+{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
-    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
-
-You slink off in shame, the eyes of the whole party on you.
-~ credibility -= 20
+“Now we’re even. Thanks, stranger.” He leaves, and you turn and march on.
 
 -->ret
 
@@ -568,7 +598,6 @@ Jerks. Seems like the rich are the same, no matter their planet of origin.
 
 ->StatusUpdate->
 
-
 +{deflectToken > 0}[Deflect]
     ~deflectToken--
     “FIJI IS LOCATED IN THE SOUTHERN PACIFIC REGION OF EARTH, NOT IN THE CARIBBEAN.”
@@ -582,6 +611,28 @@ Another. “Yeah, are you dumb or something?”
 The group turns to you, asserting their superiority between themselves by calling you names and insulting your intelligence. You don’t have time for this.
 
 You leave, allowing them to think they won a victory here.
+
+->StatusUpdate->
+
++{photographdeflect}[Show them the landscape photograph.]
+    You pull the photographer’s picture from your pocket and show it to the group.
+
+The men smirk and nod.
+
+“Excellent choice, excellent. I could see a lovely getaway being built there.”
+
+“Do you know if it’s up for sale?”
+
+“What’s the internet situation like there? I can’t go without my stocks.”
+
+
+“Wait, so they just carry around a polaroid of their-”
+
+“Shut it, Glenn.”
+
+“Right, sorry.”
+
+You grin mysteriously and leave the conversation, which has moved beyond you, for more important pastures.
 
 ->StatusUpdate->
 
@@ -824,6 +875,7 @@ You reach forward and, in your fist, grab all five. You turn to leave. It’s ti
 ~nextRoomVar = -> Rooms
 ~entry = false
 ~nextRoomStr = leaveShrimpBar
+~returning = true
         
 ->StatusUpdate->
 
