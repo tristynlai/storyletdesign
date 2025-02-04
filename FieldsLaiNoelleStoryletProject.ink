@@ -22,6 +22,7 @@ VAR photographaccept = false
 VAR photographdeflect = false
 VAR pushysalesmanaccept = false
 VAR drunkspillreject = false
+VAR drunkspillaccept = false
 
 //StoryletHolder
 TODO Put Storylet condition, entry statement, and knot name here ending with "(ret)"
@@ -30,19 +31,19 @@ TODO Put Storylet condition, entry statement, and knot name here ending with "(r
 +{room<4}[Oops broke the table of contents] <- TESTStorylet1(ret)
 *{room<3&& not entry}[Wait is that a seagull?] <- TESTSeagullStorylet(ret)
 *{room==1} [A nervous man in a suit] <- SpyIntro(ret)
-*{room==2 && spydeflect && returning} [A familiar spy handler] <- Spy2(ret)
-*{room==2} [An argument] <- DrunkSpill(ret)
-*{room==3} [A photographer] <- Photos(ret)
-*{room==4} [A woman in pain] <- ImHungie(ret)
-*{room==4 && imhungieaccept && returning} [A familiar hungry woman] <- ImHungie2(ret)
-*{room==5} [An elegant dancer] <- AskForDance(ret)
-*{room==6 && photographaccept && returning} [A photo printing station] <- PrintPhoto(ret)
-*{room==7} [A salesman] <- PushySalesman(ret)
-*{room==8 && drunkspillreject} [A familar stranger] <- KindStranger(ret)
-*{room==9} [A group of rich-looking younger men] <- WhereSummer(ret)
-*{room==10} [An awkward-looking young woman] <- AwkwardLady(ret)
-*{room==11} [A kind soul] <- Napkin(ret)
-*{room==12 && returning} [A bird] <- SeagullAttack(ret)
+*{room==1 && spydeflect && returning} [A familiar spy handler] <- Spy2(ret)
+*{room==1} [An argument] <- DrunkSpill(ret)
+*{room==1} [A photographer] <- Photos(ret)
+*{room==1} [A woman in pain] <- ImHungie(ret)
+*{room==1 && imhungieaccept && returning} [A familiar hungry woman] <- ImHungie2(ret)
+*{room==2} [An elegant dancer] <- AskForDance(ret)
+*{room==2 && photographaccept && returning} [A photo printing station] <- PrintPhoto(ret)
+*{room==2} [A salesman] <- PushySalesman(ret)
+*{room==2 && drunkspillreject} [A familar stranger] <- KindStranger(ret)
+*{room==3} [A group of rich-looking younger men] <- WhereSummer(ret)
+*{room==3} [An awkward-looking young woman] <- AwkwardLady(ret)
+*{room==3} [A kind soul] <- Napkin(ret)
+*{returning} [A bird] <- SeagullAttack(ret)
 
 ->DONE
 
@@ -152,7 +153,7 @@ You slink off in shame, the eyes of the whole party on you.
 
 ===Spy2(->ret)===
 You see the secretive man again on your way out. He lowers a conspicuous newspaper to talk.
-{hasBeacon == true:
+{hasBeacon == false:
     “The Ivory Falcon is currently being tracked - it seems the beacon worked. Excellent work, Agent F. Return to base for debriefing. I have your extraction method right here.”
 
 He pulls a parachute pack from his lumpy suit. Excellent.
@@ -160,11 +161,8 @@ You grab it, suiting up one-handed. The spymaster eyes your fistful of Holiest O
 
 You’ve earned this.
 
-Parachute out of the party.
-You leap from the roof, falling quickly until you activate the parachute, gliding gracefully away between the skyscrapers of New York.
+-> Parachute
 
-
-You’ve escaped, with the Holiest Ones in your possession. It was exhausting, it was touch-and-go at times... but you did it. You’re a hero.
 - else:
   ->Spy3(ret) 
 }
@@ -208,6 +206,19 @@ He raises a suspicious eyebrow. “Of... course?”
 You back out.
 ->StatusUpdate->
 
++{drunkspillaccept}[Offer drunk man's coin to the spy handler]
+You wordlessly raise the coin that the drunk man from earlier offered you, hiding the Holiest Ones behind your back. The man seemed to imply his family was in a criminal business, so perhaps this will make up for failing with the beacon?
+
+The spymaster practically jumps in shock.
+
+“Well done, Agent F! You’re right, the beacon can wait.” He takes the coin from you. “With this, well... we’ll be able to infiltrate their organization even further. Come, I have your extraction mission right here.”
+
+He pulls a parachute pack from his lumpy suit. Excellent.
+You grab it, suiting up one-handed. The spymaster eyes your fistful of Holiest Ones as you do so, but does not comment.
+
+You’ve earned this.
+-> Parachute
+
 +{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
     You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
 
@@ -215,6 +226,17 @@ You slink off in shame, the eyes of the whole party on you.
 ~ credibility -= 20
 
 -->ret
+
+===Parachute===
+
+*[Parachute out of the party.]
+    You leap from the roof, falling quickly until you activate the parachute, gliding gracefully away between the skyscrapers of New York.
+
+
+You’ve escaped, with the Holiest Ones in your possession. It was exhausting, it was touch-and-go at times... but you did it. You’re a hero.
+
+THE END
+-> END
 
 ===DrunkSpill(->ret)===
 You stroll through these throngs of humans, taking the quickest path. But a loud argument is taking place along the way. One arguer is a drunk-seeming young man wearing an elaborate suit stained with red, and the other is an older man with an empty glass.
@@ -230,6 +252,7 @@ You stroll through these throngs of humans, taking the quickest path. But a loud
 
 +{acceptToken > 0}[Accept]
     ~acceptToken --
+    ~drunkspillaccept = true
     “YEAH, I’D SAY SO.”
 
 “Hey, come on man!” the older man cries. “The hell?”
