@@ -30,6 +30,7 @@ TODO Put Storylet condition, entry statement, and knot name here ending with "(r
 +{room<4}[Oops broke the table of contents] <- TESTStorylet1(ret)
 *{room<3&& not entry}[Wait is that a seagull?] <- TESTSeagullStorylet(ret)
 *{room==1} [A nervous man in a suit] <- SpyIntro(ret)
+*{room==2 && spydeflect && returning} [A familiar spy handler] <- Spy2(ret)
 *{room==2} [An argument] <- DrunkSpill(ret)
 *{room==3} [A photographer] <- Photos(ret)
 *{room==4} [A woman in pain] <- ImHungie(ret)
@@ -125,6 +126,7 @@ You get out before they have time to reconsider.
 
 +{deflectToken > 0}[Deflect]
     ~deflectToken--
+    ~spydeflect = true
     “ACTUALLY I THINK I LEFT MY STOVE ON.”
 
 You turn to leave, but the man grabs you.
@@ -146,6 +148,72 @@ You stumble out, beacon in pocket.
 
 You slink off in shame, the eyes of the whole party on you.
 ~ credibility -= 20
+-->ret
+
+===Spy2(->ret)===
+You see the secretive man again on your way out. He lowers a conspicuous newspaper to talk.
+{hasBeacon == true:
+    “The Ivory Falcon is currently being tracked - it seems the beacon worked. Excellent work, Agent F. Return to base for debriefing. I have your extraction method right here.”
+
+He pulls a parachute pack from his lumpy suit. Excellent.
+You grab it, suiting up one-handed. The spymaster eyes your fistful of Holiest Ones and raises an eyebrow, but does not comment.
+
+You’ve earned this.
+
+Parachute out of the party.
+You leap from the roof, falling quickly until you activate the parachute, gliding gracefully away between the skyscrapers of New York.
+
+
+You’ve escaped, with the Holiest Ones in your possession. It was exhausting, it was touch-and-go at times... but you did it. You’re a hero.
+- else:
+  ->Spy3(ret) 
+}
+
+
+-->ret
+
+===Spy3(->ret)===
+  “You... appear not to have planted the tracking beacon, Agent F. What went wrong?”
+
+
+His eyes track down to your fist, where a few Holiest Ones are peeking through. You put it behind your back.
+
+“Is that... were you hungry, Agent?”
+
++{acceptToken > 0}[Accept]
+    ~acceptToken --
+    “ONE CAN’T SPY ON AN EMPTY STOMACH!”
+
+		He raises a suspicious eyebrow. “Of... course?”
+
+		You dip out.
+->StatusUpdate->
+
++{rejectToken>0}[Reject]
+    ~rejectToken --
+    “NOT AT ALL, SIR, AND HOW DARE YOU QUESTION ME.”
+
+He raises a suspicious eyebrow. “Of... course?”
+
+		You dip out.
+
+->StatusUpdate->
+
++{deflectToken > 0}[Deflect]
+    ~deflectToken--
+    “THESE NORMAL SHRIMP ARE 100% CRUCIAL TO A TOTALLY DIFFERENT MISSION.”
+
+	He raises an eyebrow, but then sighs. “Well, you’re the expert.”
+
+You back out.
+->StatusUpdate->
+
++{acceptToken <= 0 && rejectToken <= 0 && deflectToken <= 0}[Stay Silent]
+    You try to respond, but your translator is out of juice. The lips hang limply on your lower chin as you draw more and more suspicion for your awkward silence.
+
+You slink off in shame, the eyes of the whole party on you.
+~ credibility -= 20
+
 -->ret
 
 ===DrunkSpill(->ret)===
