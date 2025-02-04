@@ -7,10 +7,8 @@
 VAR enterBuilding = "Well, it’s time to find out."
 VAR moveRoom = "Finally, you approach the next area."
 VAR shrimpBar = "Finally you make it"
-TODO change Leave, fail, and leaveShrimpBar
-VAR leave = "Leave the building"
-VAR leaveShrimpBar = "time to go"
-VAR fail = "Are those Security Guards approaching?"
+VAR leave = "The elevator, at last!"
+VAR leaveShrimpBar = "Time to go!"
 
 //VAR for Storylet Conditions
 VAR spydeflect = false
@@ -28,21 +26,21 @@ VAR drunkspillaccept = false
 TODO Put Storylet condition, entry statement, and knot name here ending with "(ret)"
 ===TableofContents(->ret)===
 // <- Storylet name(ret)
-+{room>4}[Oops broke the table of contents] <- TESTStorylet1(ret)
-*{room==1} [A nervous man in a suit] <- SpyIntro(ret)
-*{room==1 && spydeflect && returning} [A familiar spy handler] <- Spy2(ret)
-*{room==1} [An argument] <- DrunkSpill(ret)
-*{room==1} [A photographer] <- Photos(ret)
-*{room==1} [A woman in pain] <- ImHungie(ret)
-*{room==1 && imhungieaccept && returning} [A familiar hungry woman] <- ImHungie2(ret)
-*{room==2} [An elegant dancer] <- AskForDance(ret)
++{room>4}[Oops broke the table of contents.] <- TESTStorylet1(ret)
+*{room==1} [A nervous man in a suit.] <- SpyIntro(ret)
+*{room==1 && spydeflect && returning} [A familiar spy handler.] <- Spy2(ret)
+*{room==1} [An argument.] <- DrunkSpill(ret)
+*{room==1} [A photographer.] <- Photos(ret)
+*{room==1} [A woman in pain.] <- ImHungie(ret)
+*{room==1 && imhungieaccept && returning} [A familiar hungry woman.] <- ImHungie2(ret)
+*{room==2} [An elegant dancer.] <- AskForDance(ret)
 *{room==2 && photographaccept && returning} [A photo printing station] <- PrintPhoto(ret)
-*{room==2} [A salesman] <- PushySalesman(ret)
-*{room==2 && drunkspillreject} [A familar stranger] <- KindStranger(ret)
-*{room==3} [A group of rich-looking younger men] <- WhereSummer(ret)
-*{room==3} [An awkward-looking young woman] <- AwkwardLady(ret)
-*{room==3} [A kind soul] <- Napkin(ret)
-*{returning} [A bird] <- SeagullAttack(ret)
+*{room==2} [A salesman.] <- PushySalesman(ret)
+*{room==2 && drunkspillreject} [A familar stranger.] <- KindStranger(ret)
+*{room==3} [A group of rich-looking younger men.] <- WhereSummer(ret)
+*{room==3} [An awkward-looking young woman.] <- AwkwardLady(ret)
+*{room==3} [A kind soul.] <- Napkin(ret)
+*{returning} [A bird.] <- SeagullAttack(ret)
 
 ->DONE
 
@@ -910,12 +908,12 @@ You leave before anything else picks up the smell.
 
 === Intro ===
 Silver Tongue
-*[begin]
+*[Begin]
 Your name is K'Thk'L'P'Le'Apl'T'Dd. You look exactly like an unassuming human, with the sole exception of the notable lack of a mouth beneath your nose. You breathe through your eyes, of course, as any sensible creature would - but here, at a ritzy penthouse cocktail party in the human colony Earth in the human town New York in the human year 2025, this will not do.
-** [continue]
+** [Continue]
 
 You NEED to be at this party. You NEED to infiltrate, mingle, and get out without being identified as the extraterrestrial you are. So you wear a translator across your lower face, a set of mechanical lips and tongue you’ve strapped across your upper chin.
-*** [continue]
+*** [Continue]
 
 You bought their cheapest model. It translates three vague commands contextually to match human conversation.  ACCEPT for engaging when prompted, REJECT for fighting against the flow, and DEFLECT for changing subject. After buying a suit, you only afford {money} lines of dialogue. 
 
@@ -936,33 +934,33 @@ You press a button on the machine and grab the datachip that vends out.
 {
 -money > 0:
 You can still afford {money} lines of dialogue. Might as well spend it all.
-+[Buy an ACCEPT]
++[Buy an ACCEPT.]
     ~acceptToken ++
     ~money --
     You purchased one ACCEPT response
     ->ShopStart(exit)
-+[Buy a REJECT]
++[Buy a REJECT.]
     ~rejectToken ++
     ~money --
     You purchased one REJECT response
     ->ShopStart(exit)
-+[Buy a DEFLECT]
++[Buy a DEFLECT.]
     ~deflectToken ++
     ~money --
     You purchased one DEFLECT response
     ->ShopStart(exit)
-+{money == 6}[Buy a QuikStart Pak]
++{money == 6}[Buy a QuikStart Pak.]
     This will give you 2 ACCEPTS, 2 DEFLECTS, and 2 REJECTS
     This will cost 6 credits
     Are you sure you want to purchase this?
-    **[yes]
+    **[Yes]
     You've purchased One (1) QuikStartPak
     ~money = 0
     ~acceptToken = 2
     ~rejectToken = 2
     ~deflectToken = 2
     ->ShopStart(exit)
-    ++[no]
+    ++[No]
     ->ShopStart(exit)
 -money <=0:
     You buy your last line of dialogue, hoping it will be enough.
@@ -1056,7 +1054,7 @@ VAR deflectToken = 0
 {
     - credibility < 1: 
     ~nextRoomVar = -> Failure
-    ~nextRoomStr = fail
+    ~nextRoomStr = moveRoom
 }
     +[{nextRoomStr}] -> nextRoomVar
 
@@ -1073,7 +1071,7 @@ VAR deflectToken = 0
     // Handles special Cases
     {
     - credibility < 1: ~nextRoomVar = -> Failure
-     ~nextRoomStr = fail
+     ~nextRoomStr = moveRoom
     - room == 1 && returning:~nextRoomVar = -> Ending 
        ~nextRoomStr = leave
     - room == 3 && not returning:
