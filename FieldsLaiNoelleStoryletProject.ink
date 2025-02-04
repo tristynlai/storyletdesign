@@ -893,12 +893,6 @@ Threat resolved, you head on.
 
 ===Seagull2(->ret)===
 
-+{acceptToken > 0}[Accept]
-    ~acceptToken --
-
-
-->StatusUpdate->
-
 Before your translator can finish, the bird flies at your face, pecking and clawing. You scuffle briefly and frantically before it takes off again. Luckily, it doesn’t seem to have grabbed any Holiest Ones. 
 
 You shake your fist at the sky as it flies off. Jerk!
