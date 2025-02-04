@@ -29,7 +29,6 @@ TODO Put Storylet condition, entry statement, and knot name here ending with "(r
 ===TableofContents(->ret)===
 // <- Storylet name(ret)
 +{room>4}[Oops broke the table of contents] <- TESTStorylet1(ret)
-*{room<3&& not entry}[Wait is that a seagull?] <- TESTSeagullStorylet(ret)
 *{room==1} [A nervous man in a suit] <- SpyIntro(ret)
 *{room==1 && spydeflect && returning} [A familiar spy handler] <- Spy2(ret)
 *{room==1} [An argument] <- DrunkSpill(ret)
@@ -1079,12 +1078,18 @@ VAR deflectToken = 0
     -room == 1: You enter the throng and move towards...
     -room == 2: The bass thrums through your body as you approach the covered dancefloor. Strobes and colors assault your eyes and crowds of flailing humans cover the space, making traversal through near impossible. 
 
-You shudder, but steel yourself. Time to go in.
+You shudder, but steel yourself. Time to go in. 
+
+You move towards...
 
     -room == 3&& entry: You exit a crowd of dancers and finally see it - the snack bar. Your ultimate goal.
 You’re nearly to your goal.
+
+You move towards...
 TODO change exit room 3 text
     -room == 3&& not entry: You start heading back the way you came, through the dance floor.
+    
+    You move towards...
 
     }
     {
